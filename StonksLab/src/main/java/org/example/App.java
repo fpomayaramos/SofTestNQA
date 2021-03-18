@@ -1,16 +1,11 @@
 package org.example;
 
 import org.apache.commons.io.FileUtils;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -19,7 +14,7 @@ import java.util.Scanner;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws Exception
     {
         // ask for user for a ticker and print out the price
         User wsbPerson = new User();
@@ -27,6 +22,9 @@ public class App
         Scanner number = new Scanner(System.in);
         ArrayList<String> ar;
         boolean StockAlreadyInPortfolio;
+
+        System.out.println("Please enter your \"@gmail.com\" e-mail:");
+        String email = keyboard.nextLine();
 
         while(true) {
             wsbPerson.showMenu();
@@ -39,8 +37,8 @@ public class App
             if(answer.equals("1")) {
                 System.out.println("Please enter ticker: ");
                 String ticker = keyboard.nextLine();
-                wsbPerson.printStonkPrice(ticker);
-                System.out.println("");
+                System.out.println(wsbPerson.printStonkPrice(ticker) + "\n");
+                JavaMailUtil.sendMail(email, "Price of " + ticker + " is $" + wsbPerson.printStonkPrice(ticker));
             }
             if (answer.equals("2")) {
                 // print out portfolio total value
@@ -48,6 +46,7 @@ public class App
                 System.out.println(wsbPerson.getPortfolio());
                 System.out.println("The value of your portfolio is: " + String.format("%.2f", totalValue));
                 System.out.println("");
+                JavaMailUtil.sendMail(email, wsbPerson.getPortfolio() + "\n" + "The value of your portfolio is: $" + String.format("%.2f", totalValue));
             }
             if (answer.equals("3")) {
                 System.out.println("Please enter the ticker of the stock you would like to add to porfolio: ");

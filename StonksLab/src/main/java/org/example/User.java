@@ -73,9 +73,10 @@ public class User {
      * Given a ticker, print out the price of the Stonk
      * @param ticker ticker of the Stonk
      */
-    public void printStonkPrice(String ticker) {
+    public String printStonkPrice(String ticker) {
         double price = StonkUtility.getPriceOfStonk(ticker);
-        System.out.println(price);
+        // System.out.println(price);
+        return String.valueOf(price);
     }
 
     /**
